@@ -7,6 +7,8 @@ import { FaMapMarkerAlt, FaLocationArrow } from 'react-icons/fa';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'; // Import Geocoder CSS
 import DirectionsSidebar from '../Components/Direction';
+import { supabase } from '../Components/CreateUser';
+
 
 
 const Map = () => {
@@ -19,6 +21,23 @@ const Map = () => {
   const [is3DMode, setIs3DMode] = useState(false); // Trạng thái 2D/3D
   const [MapStyle, setMapStyle] = useState('mapbox://styles/mapbox/streets-v12'); //Trạng thái bản đồ (mặc định)
   const [showLayers, setShowLayers] = useState(false);
+  const [places, setPlaces] = useState([]);
+  const [showAtms, setShowAtms] = useState(false);
+  const atmMarkers = useRef([]); // Lưu trữ các marker ATM
+
+  // Lấy dữ liệu từ Supabase
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data, error } = await supabase.from('places_atms').select('*');
+      if (error) {
+        console.error('Error fetching data:', error);
+      } else {
+        setPlaces(data);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     mapboxgl.accessToken = 'pk.eyJ1IjoiamFtZXMyMDAzIiwiYSI6ImNtM2ZhcTdhbjBueWwyanB5NGsxY3V3M3cifQ.4gW5S9bQj9h63cF5YnZ01Q';
@@ -31,6 +50,23 @@ const Map = () => {
       zoom: 15,
       pitch: 0, // Mặc định ở 2D
       bearing: 0, // Không xoay
+    });
+
+    // Thêm các điểm vào bản đồ
+    places.forEach((place) => {
+      const { lat, lng, title, address, imageUrl } = place;
+      
+      const popup = new mapboxgl.Popup({ offset: 25 })
+        .setHTML(`
+          <h3>${title}</h3>
+          <p>${address}</p>
+          <img src="${imageUrl}" alt="${title}" width="100" />
+        `);
+
+      new mapboxgl.Marker()
+        .setLngLat([lng, lat])
+        .setPopup(popup)
+        .addTo(mapRef.current);
     });
 
     // Thêm Geocoder (hộp tìm kiếm)
@@ -252,11 +288,35 @@ const Map = () => {
         console.log('Không tìm thấy thông tin địa điểm.');
       }
     });
-
-    return () => {
-      mapRef.current.remove();
-    };
+    
   }, [isNightMode, is3DMode, MapStyle]); // Lắng nghe cả trạng thái ngày/đêm, 2D/3D và kiểu bản đồ
+
+  // Xử lý hiển thị marker ATM
+  useEffect(() => {
+    if (showAtms) {
+      // Thêm các marker vào bản đồ
+      places.forEach((place) => {
+        const { lat, lng, title, address, imageUrl } = place;
+
+        const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(`
+          <h3>${title}</h3>
+          <p>${address}</p>
+          <img src="${imageUrl}" alt="${title}" width="100" />
+        `);
+
+        const marker = new mapboxgl.Marker()
+          .setLngLat([lng, lat])
+          .setPopup(popup)
+          .addTo(mapRef.current);
+
+        atmMarkers.current.push(marker); // Lưu marker
+      });
+    } else {
+      // Xóa tất cả các marker ATM khỏi bản đồ
+      atmMarkers.current.forEach((marker) => marker.remove());
+      atmMarkers.current = []; // Dọn dẹp mảng
+    }
+  }, [showAtms, places]);
 
   const changeMapStyle = (style) => {
     setMapStyle(style); // Cập nhật kiểu bản đồ
@@ -407,6 +467,12 @@ const Map = () => {
     <div className="relative w-full h-screen">
       {/* Nút bật tắt chế độ Ngày/Đêm và 2D/3D */}
       <div className="absolute top-2 left-2 flex gap-2 z-10">
+        <button
+            onClick={() => setShowAtms(!showAtms)}
+            className="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            {showAtms ? 'ATMs' : 'ẨN'}
+        </button>
         <button
           onClick={toggleDayNight}
           className="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
