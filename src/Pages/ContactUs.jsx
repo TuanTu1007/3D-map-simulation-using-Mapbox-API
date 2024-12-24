@@ -17,7 +17,7 @@ const ContactUs = () => {
           alt=""
         /> */}
         <div className="flex flex-col justify-center items-start gap-6">
-          <p className="font-medium text-xl text-gray-600">Our Store</p>
+          <p className="font-medium text-xl text-gray-600">Our Map</p>
           <p className="text-gray-500">
             UNIVERSITY OF INFORMATION TECHNOLOGY <br /> Ho Chi Minh City, VN
           </p>

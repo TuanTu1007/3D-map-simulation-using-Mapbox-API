@@ -24,7 +24,7 @@ const Login = ({ setToken }) => {
       // Xử lý quên mật khẩu
       try {
         const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
-          redirectTo: 'http://localhost:3000/reset-password', // Thay đổi URL theo dự án của bạn
+          redirectTo: 'http://localhost:5173/reset-password', // Thay đổi URL theo dự án của bạn
         });
         if (error) throw error;
         alert('Password reset email sent! Check your inbox.');
@@ -48,10 +48,8 @@ const Login = ({ setToken }) => {
           console.log(data);
           setToken(data);
         } else {
-          console.log('Welcome User!');
           // Điều hướng đến trang Home
           window.location.href = '/home';
-          console.log(data);
           setToken(data);
         }
       } catch (error) {
