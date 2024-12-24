@@ -12,6 +12,7 @@ import Admin_dashboard from "./Pages/Admin_dashboard";
 import SignUp from "./Pages/SignUp";
 import { useNavigate } from 'react-router-dom'
 import Edit from "./Pages/Edit";
+import ResetPassword from "./Pages/ResetPassword";
 
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
         {<Route path={'/signup'} element={ <SignUp token={token} />} />}
         {<Route path={'/contactus'} element={ <ContactUs token={token} />} />}
         {<Route path={'/edit'} element={ <Edit token={token} />} />}
+        {<Route path={'/reset-password'} element={ <ResetPassword token={token} />} />}
         {<Route path={'/admin'} element={ <Admin_dashboard token={token} handleLogout={handleLogout} />} />}
       </Routes>
       {!isAdminDashboard && <Footer />} {/* Ẩn Footer trên trang Admin_dashboard */}
