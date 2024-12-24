@@ -265,11 +265,22 @@ const Map = () => {
   // Function to toggle between Day and Night modes
   const toggleDayNight = () => {
     const newStyle = isNightMode
-      ? 'mapbox://styles/mapbox/streets-v12' // Ngày
-      : 'mapbox://styles/mapbox/dark-v10'; // Đêm
+      ? 'mapbox://styles/mapbox/dark-v10' // Đêm
+      : 'mapbox://styles/mapbox/streets-v12'; // Ngày
 
-    mapRef.current.setStyle(newStyle); // Chuyển đổi style
-    setIsNightMode(!isNightMode); // Cập nhật trạng thái
+    setMapStyle(newStyle); // Cập nhật kiểu bản đồ trong state
+    setIsNightMode(!isNightMode); // Cập nhật trạng thái ngày/đêm
+
+    // Đổi style của bản đồ
+    mapRef.current.setStyle(newStyle);
+
+    // Lắng nghe sự kiện style.load để thêm lại các layers
+    mapRef.current.once('style.load', () => {
+      // Thêm lại các layer hoặc thiết lập khác sau khi đổi style
+      if (is3DMode && mapRef.current.getLayer('3d-buildings')) {
+        mapRef.current.setLayoutProperty('3d-buildings', 'visibility', 'visible');
+      }
+    });
   };
 
   // Function to toggle between 2D and 3D modes
