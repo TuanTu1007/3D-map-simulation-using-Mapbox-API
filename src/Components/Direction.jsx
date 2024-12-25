@@ -146,13 +146,13 @@ const DirectionsSidebar = ({ map }) => {
     <div>
       <button
         onClick={toggleSidebar}
-        className="px-4 py-2 bg-gray-700 text-white rounded-md shadow-md hover:bg-blue-600"
+        className="px-4 py-2 bg-gray-700 text-white rounded-md shadow-md hover:bg-gray-900"
       >
         Directions
       </button>
       <div
         className={`fixed top-10 left-0 w-80 h-100 bg-gray-100 shadow-lg p-4 transition-transform ${
-          isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          isSidebarOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
         }`}
       >
         <div className="flex justify-between items-center p-4 border-b">
@@ -187,7 +187,7 @@ const DirectionsSidebar = ({ map }) => {
         </div>
         <button
           onClick={getDirections}
-          className="w-full px-4 py-2 bg-blue-500 text-white rounded shadow-md hover:bg-blue-600"
+          className="w-full px-4 py-2 bg-gray-600 text-white rounded shadow-md hover:bg-gray-900"
         >
           Find Route
         </button>

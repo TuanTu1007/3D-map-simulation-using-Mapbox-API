@@ -462,28 +462,85 @@ const Map = () => {
       }
     }
   };
+  const [showSidebar, setShowSidebar] = useState(false);
+  // Sidebar Component
+  const Sidebar = ({
+    isNightMode,
+    toggleDayNight,
+    is3DMode,
+    toggle2D3D,
+    showAtms,
+    toggleAtmsLayer,
+    closeSidebar,
+  }) => {
+    return (
+      <div
+        className="absolute left-0 top-0 h-55 bg-white shadow-md z-20 transform translate-x-0 transition-transform duration-300"
+      >
+        {/* Nút đóng Sidebar */}
+        <div className="p-4 flex justify-end">
+          <button
+            onClick={closeSidebar}
+            className="text-gray-600 hover:text-gray-900 focus:outline-none"
+          >
+            ✕
+          </button>
+        </div>
+
+        {/* Nội dung Sidebar */}
+        <div className="p-4 flex flex-col gap-4">
+          {/* Nút Ngày/Đêm */}
+          <button
+            onClick={toggleDayNight}
+            className={`px-4 py-2 rounded-md shadow ${
+              isNightMode ? 'bg-gray-800 text-white' : 'bg-gray-200'
+            } hover:bg-gray-300`}
+          >
+            {isNightMode ? 'Chế độ Ngày' : 'Chế độ Đêm'}
+          </button>
+
+          {/* Nút 2D/3D */}
+          <button
+            onClick={toggle2D3D}
+            className={`px-4 py-2 rounded-md shadow ${
+              is3DMode ? 'bg-blue-500 text-white' : 'bg-gray-200'
+            } hover:bg-gray-300`}
+          >
+            {is3DMode ? 'Chuyển sang 2D' : 'Chuyển sang 3D'}
+          </button>
+
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="relative w-full h-screen">
-      {/* Nút bật tắt chế độ Ngày/Đêm và 2D/3D */}
+      {/* Nút mở Sidebar */}
+      <button
+        onClick={() => setShowSidebar(true)}
+        className="absolute top-4 left-4 z-30 bg-blue-500 text-white p-3 rounded-full shadow-md hover:bg-blue-600 focus:outline-none"
+      >
+        ☰
+      </button>
+
+      {/* Sidebar */}
+      {showSidebar && (
+        <Sidebar
+          isNightMode={isNightMode}
+          toggleDayNight={toggleDayNight}
+          is3DMode={is3DMode}
+          toggle2D3D={toggle2D3D}
+          closeSidebar={() => setShowSidebar(false)}
+        />
+      )}
+      {/* Nút ATM*/}
       <div className="absolute top-2 left-2 flex gap-2 z-10">
         <button
             onClick={() => setShowAtms(!showAtms)}
-            className="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-4 py-2 ml-20 bg-white border border-gray-300 rounded-md shadow-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             {showAtms ? 'ATMs' : 'ẨN'}
-        </button>
-        <button
-          onClick={toggleDayNight}
-          className="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          {isNightMode ? 'Đêm' : 'Ngày'}
-        </button>
-        <button
-          onClick={toggle2D3D}
-          className="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          {is3DMode ? '2D' : '3D'}
         </button>
       </div>
   
@@ -495,7 +552,7 @@ const Map = () => {
       />
   
       {/* Sidebar chỉ đường */}
-      <div className="absolute left-0 top-1/2 transform -translate-y-1/2 rounded-md z-10">
+      <div className="absolute left-1/4 top-7 transform -translate-y-1/2 rounded-md z-10">
         <DirectionsSidebar map={mapRef.current} />
       </div>
   
