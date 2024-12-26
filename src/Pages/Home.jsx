@@ -11,6 +11,26 @@ const Home = () => {
       <Hero/>
       <LatestFeatures />
       <BestFeature />
+      <div>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+      </div>
       <OurPolicy />
       <NewsletterBox />
     </div>

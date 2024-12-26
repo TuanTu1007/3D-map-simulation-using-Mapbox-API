@@ -47,13 +47,13 @@ const Navbar = ({ token, handleLogout }) => {
   </div>
 
   {/* Navigation Links */}
-  <ul className="flex items-center space-x-6">
+  <ul className="flex items-center space-x-6 font-bold">
     <li>
       <Link
         to="/home"
         className={`hover:text-yellow-400 ${isActive('/home') ? 'text-yellow-400 font-bold' : ''}`}
       >
-        Home
+        HOME
       </Link>
     </li>
     <li>
@@ -61,7 +61,7 @@ const Navbar = ({ token, handleLogout }) => {
         to="/map"
         className={`hover:text-yellow-400 ${isActive('/map') ? 'text-yellow-400 font-bold' : ''}`}
       >
-        Map
+        MAP
       </Link>
     </li>
     <li>
@@ -69,7 +69,7 @@ const Navbar = ({ token, handleLogout }) => {
         to="/about"
         className={`hover:text-yellow-400 ${isActive('/about') ? 'text-yellow-400 font-bold' : ''}`}
       >
-        About
+        ABOUT
       </Link>
     </li>
     <li>
@@ -77,7 +77,7 @@ const Navbar = ({ token, handleLogout }) => {
         to="/contactus"
         className={`hover:text-yellow-400 ${isActive('/contactus') ? 'text-yellow-400 font-bold' : ''}`}
       >
-        Contact
+        CONTACT
       </Link>
     </li>
   </ul>
@@ -97,7 +97,7 @@ const Navbar = ({ token, handleLogout }) => {
         <span>Welcome, Guest</span>
       )}
       {isDropdownOpen && (
-        <div className="absolute right-0 mt-2 w-36 bg-gray-700 text-white rounded-md shadow-lg">
+        <div className="absolute right-0 mt-2 w-36 bg-gray-700 text-white rounded-md shadow-lg z-50">
           <button className="block px-4 py-2 w-full text-left hover:bg-gray-600">
             <Link to="/edit">Personal Info</Link>
           </button>
