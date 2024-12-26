@@ -146,7 +146,8 @@ const DirectionsSidebar = ({ map }) => {
     <div>
       <button
         onClick={toggleSidebar}
-        className="px-4 py-2 bg-gray-700 text-white rounded-md shadow-md hover:bg-gray-900"
+        className={`px-4 py-2 text-white rounded-md shadow-md ${
+          isSidebarOpen ? 'bg-blue-500 text-white hover:bg-gray-700' : 'bg-gray-700 text-white hover:bg-blue-500'}`}
       >
         Directions
       </button>
@@ -187,7 +188,7 @@ const DirectionsSidebar = ({ map }) => {
         </div>
         <button
           onClick={getDirections}
-          className="w-full px-4 py-2 bg-gray-600 text-white rounded shadow-md hover:bg-gray-900"
+          className="w-full px-4 py-2 bg-blue-500 text-white rounded shadow-md hover:bg-gray-700"
         >
           Find Route
         </button>

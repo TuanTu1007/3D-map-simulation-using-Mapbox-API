@@ -40,3 +40,11 @@
   border-radius: 10px;
   cursor: pointer;
 }
+
+.mapboxgl-ctrl-geocoder--icon {
+    position: relative; /* Giữ biểu tượng cố định */
+    margin-top: 10px;
+    transform: translateY(-50%); /* Căn giữa hoàn hảo */
+    margin-left: 200px;
+}
+
