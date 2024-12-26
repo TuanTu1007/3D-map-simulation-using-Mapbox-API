@@ -10,7 +10,6 @@ import DirectionsSidebar from '../Components/Direction';
 import { supabase } from '../Components/CreateUser';
 
 
-
 const Map = () => {
   const mapRef = useRef();
   const mapContainerRef = useRef();
@@ -257,10 +256,10 @@ const Map = () => {
       if (event.features && event.features.length) {
         const feature = event.features[0];
         const coordinates = feature.geometry.coordinates;
-        const name = feature.properties.name || 'Không rõ';
+        const name = feature.properties.name || 'Unknown';
 
         // Hiển thị thông tin
-        alert(`Tên địa điểm: ${name}\nTọa độ: ${coordinates.join(', ')}`);
+        alert(`Location Name: ${name}\nCoordinates: ${coordinates.join(', ')}`);
       }
     });
 
@@ -283,7 +282,7 @@ const Map = () => {
 
         // Hiển thị thông tin dưới dạng pop-up hoặc hộp thông tin
         const popupContent = `
-          <strong>Vị trí:</strong><br />
+          <strong>Location:</strong><br />
           Latitude: ${lat.toFixed(6)}<br />
           Longitude: ${lng.toFixed(6)}<br />
           ${placeNames.join('<br />')}
@@ -294,7 +293,7 @@ const Map = () => {
           .setHTML(popupContent)
           .addTo(mapRef.current);
       } else {
-        console.log('Không tìm thấy thông tin địa điểm.');
+        console.log('No location information found.');
       }
     });
     
@@ -391,18 +390,18 @@ const Map = () => {
             new mapboxgl.Marker({ color: 'blue' })
               .setLngLat([longitude, latitude])
               .setPopup(
-                new mapboxgl.Popup().setHTML('<strong>Vị trí của bạn</strong>')
+                new mapboxgl.Popup().setHTML('<strong>Your location</strong>')
               )
               .addTo(mapRef.current);
           },
           (error) => {
-            console.error('Lỗi xác định vị trí:', error);
-            alert('Không thể xác định vị trí của bạn.');
+            console.error('Error determining location:', error);
+            alert('Your location could not be determined.');
           }
         );
         setLocation(true)
       } else {
-        alert('Trình duyệt của bạn không hỗ trợ định vị.');
+        alert('Your browser does not support geolocation.');
       }
     }
     else {
@@ -503,7 +502,7 @@ const Map = () => {
               is3DMode ? 'bg-blue-500 text-white' : 'bg-gray-700 text-white hover:bg-blue-500'
             } hover:bg-gray-900`}
           >
-            {is3DMode ? 'Chuyển sang 2D' : 'Chuyển sang 3D'}
+            {is3DMode ? '2D Mode' : '3D Mode'}
           </button>
 
 
@@ -514,7 +513,7 @@ const Map = () => {
               isNightMode ? 'bg-gray-700 text-white hover:bg-blue-500' : 'bg-blue-500 text-white'
             } hover:bg-gray-900`}
           >
-            {isNightMode ? 'Chế độ Đêm' : 'Chế độ Ngày'}
+            {isNightMode ? 'Night Mode' : 'Day Mode'}
           </button>
 
           {/* Sidebar chỉ đường */}
@@ -553,25 +552,25 @@ const Map = () => {
             onClick={() => changeMapStyle('mapbox://styles/mapbox/streets-v12')}
             className={`px-4 py-2 rounded-md shadow hover:bg-gray-100 w-48 ${MapStyle === 'mapbox://styles/mapbox/streets-v12' ? 'bg-blue-500 text-white' : 'bg-gray-700 text-white'} hover:bg-blue-700`}
           >
-            Bản đồ thường
+            Normal map
           </button>
           <button
             onClick={() => changeMapStyle('mapbox://styles/mapbox/satellite-streets-v12')}
             className={`px-4 py-2 rounded-md shadow hover:bg-gray-100 w-48 ${MapStyle === 'mapbox://styles/mapbox/satellite-streets-v12' ? 'bg-blue-500 text-white' : 'bg-gray-700 text-white'} hover:bg-blue-700`}
           >
-            Bản đồ vệ tinh
+            Satellite map
           </button>
           <button
             onClick={() => changeMapStyle('mapbox://styles/mapbox/outdoors-v12')}
             className={`px-4 py-2 rounded-md shadow hover:bg-gray-100 w-48 ${MapStyle === 'mapbox://styles/mapbox/outdoors-v12' ? 'bg-blue-500 text-white' : 'bg-gray-700 text-white'} hover:bg-blue-700`}
           >
-            Bản đồ địa hình
+            Topographic map
           </button>
           <button
             onClick={() => changeMapStyle('mapbox://styles/mapbox/traffic-night-v2')}
             className={`px-4 py-2 rounded-md shadow hover:bg-gray-100 w-48 ${MapStyle === 'mapbox://styles/mapbox/traffic-night-v2' ? 'bg-blue-500 text-white' : 'bg-gray-700 text-white'} hover:bg-blue-700`}
           >
-            Bản đồ giao thông
+            Traffic map
           </button>
         </div>
       )}

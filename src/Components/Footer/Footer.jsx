@@ -12,14 +12,13 @@ const Footer = () => {
           <div className="flex flex-col items-center sm:items-start w-1/5">
             <img src={logo_cheese} alt="Logo" className="h-12" />
             <h2 className="text-xl font-semibold mb-2">CHEESE</h2>
-            <p className="text-sm text-gray-400">Khám phá Công Nghệ 3D Hiện Đại</p>
+            <p className="text-sm text-gray-400">Explore Modern 3D Technology</p>
           </div>
 
           {/* Các thẻ <p> nằm ngang, căn chỉnh và cách đều */}
           <div className="flex flex-wrap justify-start w-full sm:w-4/6">
           <p className="font-semibold text-lg mb-4 text-left w-1/6">
-              Khám Phá
-              <ul className="space-y-2 mt-2">
+              <ul className="space-y-2 mt-0">
                 <li><a href="#" className="text-gray-300 hover:text-yellow-500">Home</a></li>
                 <li><a href="#" className="text-gray-300 hover:text-yellow-500">About us</a></li>
                 <li><a href="#" className="text-gray-300 hover:text-yellow-500">Contact us</a></li>

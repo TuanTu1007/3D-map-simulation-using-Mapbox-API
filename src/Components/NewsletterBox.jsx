@@ -8,10 +8,8 @@ const NewsletterBox = () => {
       <p className="text-2xl font-medium text-gray-800">
         Subcribe now 
       </p>
-      <p className="text-gray-400 mt-3">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima dolore
-        vitae iste veniam fugiat eos, quas sunt doloribus et pariatur
-        laboriosam, repellendus ab vero numquam vel a cumque aliquam harum.
+      <p className="text-black mt-3">
+        Sign up to receive the latest information
       </p>
       <form
         onSubmit={onSubmitHandler}

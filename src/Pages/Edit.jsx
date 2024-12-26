@@ -126,7 +126,7 @@ const Edit = () => {
   
     if (!updatedImageURL) {
       console.error('Image URL is missing');
-      alert('Không thể lưu ảnh, vui lòng thử lại!');
+      alert('Unable to save image, please try again!');
       return;
     }
   
@@ -134,7 +134,7 @@ const Edit = () => {
       const { data: { user }, error: userError } = await supabase.auth.getUser();
       if (userError || !user) {
         console.error('Failed to retrieve user:', userError);
-        alert('Không thể xác định người dùng, vui lòng thử lại!');
+        alert('Unable to identify user, please try again!');
         return;
       }
   
@@ -150,22 +150,20 @@ const Edit = () => {
   
       if (updateError) {
         console.error('Update failed:', updateError.details || updateError.message);
-        alert('Lỗi cập nhật dữ liệu, kiểm tra lại thông tin nhập!');
+        alert('Error updating data, check input information again!');
         return;
       }
   
       if (updateData) {
         console.log('Update successful:', updateData);
-        alert('Thông tin đã được cập nhật thành công!');
+        alert('Information has been updated successfully!');
       }
     } catch (error) {
       console.error('Unexpected error:', error);
-      alert('Đã xảy ra lỗi, vui lòng thử lại!');
+      alert('An error occurred, please try again!');
     }
   };
   
-  
-
 
   const handleSave = async () => {
     const { Full_name, phone_number, gender, dob, imageURL } = formData;
@@ -206,12 +204,12 @@ const Edit = () => {
     const { currentPassword, newPassword, confirmPassword } = passwordData;
 
     if (!currentPassword || !newPassword || !confirmPassword) {
-      alert('Vui lòng nhập đầy đủ thông tin mật khẩu.');
+      alert('Please enter full password information.');
       return;
     }
 
     if (newPassword !== confirmPassword) {
-      alert('Mật khẩu mới và xác nhận mật khẩu không khớp.');
+      alert('New password and confirm password do not match.');
       return;
     }
 
@@ -241,8 +239,8 @@ const Edit = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-semibold">Hồ Sơ Của Tôi</h1>
-      <h2 className="text-1xl font-semibold mt-5 mb-2">Quản lý thông tin hồ sơ để bảo mật tài khoản</h2>
+      <h1 className="text-3xl font-semibold">My Profile</h1>
+      <h2 className="text-1xl font-semibold mt-5 mb-2">Manage profile information to keep your account secure</h2>
       <hr className="mb-4 border-t-2 border-black" />
       {showSuccessPopup && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
@@ -250,8 +248,8 @@ const Edit = () => {
           <div className="text-green-500 text-3xl mb-4">
             <i className="fa fa-check-circle"></i>
           </div>
-          <h2 className="text-lg font-semibold">Thông báo</h2>
-          <p className="text-sm text-gray-700">Cập nhật thông tin thành công</p>
+          <h2 className="text-lg font-semibold">Notification</h2>
+          <p className="text-sm text-gray-700">Information updated successfully</p>
         </div>
       </div>
       )}
@@ -261,8 +259,8 @@ const Edit = () => {
             <div className="text-red-500 text-3xl mb-4">
               <i className="fa fa-times-circle"></i>
             </div>
-            <h2 className="text-lg font-semibold">Thông báo</h2>
-            <p className="text-sm text-gray-700">Cập nhật không thành công. Vui lòng kiểm tra lại thông tin.</p>
+            <h2 className="text-lg font-semibold">Notification</h2>
+            <p className="text-sm text-gray-700">Update failed. Please check the information again.</p>
           </div>
         </div>
       )}
@@ -281,17 +279,17 @@ const Edit = () => {
             className="block w-full text-gray-700"
           />
           <p className="text-xs text-gray-500 mt-1">
-            Dung lượng file tối đa 1 MB. Định dạng: JPEG, PNG.
+          Maximum file size 1 MB. Format: JPEG, PNG.
           </p>
         </div>
 
         <div className="flex-1 ml-10">
           <div className="flex mb-4">
-            <label className="text-gray-700 w-1/4 text-right mr-10">Tên đăng nhập</label>
+            <label className="text-gray-700 w-1/4 text-right mr-10">Username</label>
             {formData.username}
           </div>
           <div className="flex mb-4">
-            <label className="text-gray-700 w-1/4 text-right mr-10">Tên</label>
+            <label className="text-gray-700 w-1/4 text-right mr-10">Full Name</label>
             <input
               type="text"
               name="Full_name"
@@ -313,7 +311,7 @@ const Edit = () => {
           </div>
 
           <div className="flex mb-4">
-            <label className="text-gray-700 w-1/4 text-right mr-10">Số điện thoại</label>
+            <label className="text-gray-700 w-1/4 text-right mr-10">Phone number</label>
             <div className="w-3/4">
               <input
                 type="text"
@@ -326,7 +324,7 @@ const Edit = () => {
           </div>
 
           <div className="flex mb-4">
-            <label className="text-gray-700 w-1/4 text-right mr-10">Giới tính</label>
+            <label className="text-gray-700 w-1/4 text-right mr-10">Gender</label>
             <div className="flex space-x-4 w-3/4">
               <label>
                 <input
@@ -337,7 +335,7 @@ const Edit = () => {
                   onChange={handleChange}
                   className="mr-2"
                 />
-                Nam
+                Male
               </label>
               <label>
                 <input
@@ -348,7 +346,7 @@ const Edit = () => {
                   onChange={handleChange}
                   className="mr-2"
                 />
-                Nữ
+                Female
               </label>
               <label>
                 <input
@@ -359,12 +357,12 @@ const Edit = () => {
                   onChange={handleChange}
                   className="mr-2"
                 />
-                Khác
+                Other
               </label>
             </div>
           </div>
           <div className="flex mb-4">
-            <label className="text-gray-700 w-1/4 text-right mr-10">Ngày sinh</label>
+            <label className="text-gray-700 w-1/4 text-right mr-10">Day of Birth</label>
             <div className="w-3/4">
               <input
                 type="date"
@@ -380,17 +378,17 @@ const Edit = () => {
               onClick={handleSave}
               className="bg-blue-500 hover:bg-gray-500 text-white px-8 py-2 rounded-md"
             >
-              Lưu
+              SAVE
             </button>
           </div>
         </div>
       </div>
       {/* Giao diện cập nhật mật khẩu */}
       <div className="mt-8">
-        <h2 className="text-1xl font-semibold mt-5 mb-2">Thay đổi mật khẩu</h2>
+        <h2 className="text-1xl font-semibold mt-5 mb-2">CHANGE PASSWORD</h2>
         <hr className="mb-4 border-t-2 border-black" />
         <div className="flex mb-4 ml-60">
-          <label className="text-gray-700 w-1/4 text-right mr-10">Mật khẩu hiện tại</label>
+          <label className="text-gray-700 w-1/4 text-right mr-10">Current Password</label>
           <div className="w-3/4">
             <input
               type="password"
@@ -401,7 +399,7 @@ const Edit = () => {
           </div>
         </div>
         <div className="flex mb-4 ml-60">
-          <label className="text-gray-700 w-1/4 text-right mr-10">Mật khẩu mới</label>
+          <label className="text-gray-700 w-1/4 text-right mr-10">New Password</label>
           <div className="w-3/4">
             <input
               type="password"
@@ -413,7 +411,7 @@ const Edit = () => {
           </div>
         </div>
         <div className="flex mb-4 ml-60">
-          <label className="text-gray-700 w-1/4 text-right mr-10">Xác nhận mật khẩu mới</label>
+          <label className="text-gray-700 w-1/4 text-right mr-10">Conform New Password</label>
           <div className="w-3/4">
             <input
               type="password"
@@ -429,7 +427,7 @@ const Edit = () => {
               onClick={handlePasswordUpdate}
               className="bg-blue-500 hover:bg-gray-500 text-white px-8 py-2 rounded-md"
             >
-              Thay đổi
+              UPDATE
             </button>
           </div>
       </div>

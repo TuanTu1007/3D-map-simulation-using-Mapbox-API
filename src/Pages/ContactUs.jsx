@@ -1,5 +1,5 @@
 import React from 'react'
-import Navbar from '../Components/Navbar/Navbar'
+import best from '../Components/assets/best_feature.jpg'
 import Title from "../Components/Title";
 
 const ContactUs = () => {
@@ -11,21 +11,21 @@ const ContactUs = () => {
       </div>
 
       <div className="my-10 flex flex-col justify-center md:flex-row gap-10 mb-28">
-        {/* <img
-          className="w-full md:max-w-[480px]"
-          src={assets.contact_img}
+        <img
+          className="w-full md:max-w-[450px]"
+          src={best}
           alt=""
-        /> */}
+        />
         <div className="flex flex-col justify-center items-start gap-6">
-          <p className="font-medium text-xl text-gray-600">Our Map</p>
-          <p className="text-gray-500">
+          <p className="font-medium text-xl text-gray-600">Our Maps</p>
+          <p className="text-black">
             UNIVERSITY OF INFORMATION TECHNOLOGY <br /> Ho Chi Minh City, VN
           </p>
-          <p className="text-gray-500">
+          <p className="text-black">
             Tel: (+84) 962920750 <br /> Email: 21522747@gm.uit.edu.vn
           </p>
           <p className="font-medium text-xl text-gray-600">Career at Cheese</p>
-          <p className="text-gray-500">
+          <p className="text-black">
             Learn more about our teams and job openings.
           </p>
           <button className="border border-black px-8 py-4 text-sm hover:text-white hover:bg-black transition-all duration-500">
