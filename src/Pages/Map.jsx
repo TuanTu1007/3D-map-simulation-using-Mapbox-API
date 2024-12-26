@@ -15,6 +15,7 @@ const Map = () => {
   const mapRef = useRef();
   const mapContainerRef = useRef();
   const [tracking, setTracking] = useState(false); // Trạng thái theo dõi
+  const [location, setLocation] = useState(false); // Trạng thái vị trí
   const [watchId, setWatchId] = useState(null); // ID của watchPosition
   const [coordinates, setCoordinates] = useState({ lat: 10.883749, lng:  106.808684 }); // Tọa độ mặc định
   const [isNightMode, setIsNightMode] = useState(false); // Trạng thái ngày/đêm
@@ -374,34 +375,41 @@ const Map = () => {
   };
 
   const handleLocateUser = () => {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
+    if (!location) {
+      if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
 
-          // Di chuyển bản đồ đến vị trí hiện tại
-          mapRef.current.flyTo({
-            center: [longitude, latitude],
-            zoom: 14,
-          });
+            // Di chuyển bản đồ đến vị trí hiện tại
+            mapRef.current.flyTo({
+              center: [longitude, latitude],
+              zoom: 14,
+            });
 
-          // Thêm marker vào vị trí của người dùng
-          new mapboxgl.Marker({ color: 'blue' })
-            .setLngLat([longitude, latitude])
-            .setPopup(
-              new mapboxgl.Popup().setHTML('<strong>Vị trí của bạn</strong>')
-            )
-            .addTo(mapRef.current);
-        },
-        (error) => {
-          console.error('Lỗi xác định vị trí:', error);
-          alert('Không thể xác định vị trí của bạn.');
-        }
-      );
-    } else {
-      alert('Trình duyệt của bạn không hỗ trợ định vị.');
+            // Thêm marker vào vị trí của người dùng
+            new mapboxgl.Marker({ color: 'blue' })
+              .setLngLat([longitude, latitude])
+              .setPopup(
+                new mapboxgl.Popup().setHTML('<strong>Vị trí của bạn</strong>')
+              )
+              .addTo(mapRef.current);
+          },
+          (error) => {
+            console.error('Lỗi xác định vị trí:', error);
+            alert('Không thể xác định vị trí của bạn.');
+          }
+        );
+        setLocation(true)
+      } else {
+        alert('Trình duyệt của bạn không hỗ trợ định vị.');
+      }
     }
-  };
+    else {
+      setLocation(false);
+    }
+  
+  }
 
   const handleTrackUser = () => {
     if (!tracking) {
@@ -470,8 +478,9 @@ const Map = () => {
       }
     }
   };
-  
 
+  const [selectedMap, setSelectedMap] = useState(''); // Trạng thái để theo dõi bản đồ đang chọn
+  
   return (
     <div className="relative w-full h-screen">
       
@@ -505,7 +514,7 @@ const Map = () => {
               isNightMode ? 'bg-gray-700 text-white hover:bg-blue-500' : 'bg-blue-500 text-white'
             } hover:bg-gray-900`}
           >
-            {isNightMode ? 'Chế độ Ngày' : 'Chế độ Đêm'}
+            {isNightMode ? 'Chế độ Đêm' : 'Chế độ Ngày'}
           </button>
 
           {/* Sidebar chỉ đường */}
@@ -523,64 +532,50 @@ const Map = () => {
   
       {/* Nút Layer */}
       <div
-        className="absolute bottom-6 right-2 z-10"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-        }}
+      className="absolute bottom-6 right-2 z-10"
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+      }}
+    >
+      {/* Nút hiển thị popup */}
+      <button
+        onClick={() => setShowLayers((prev) => !prev)}
+        className={`px-4 py-2 rounded-md shadow ${ showLayers ? 'bg-blue-500 text-white hover:bg-gray-700' : 'bg-gray-700 text-white hover:bg-blue-500'}`}
       >
-        {/* Nút hiển thị popup */}
-        <button
-          onClick={() => setShowLayers((prev) => !prev)}
-          className={`px-4 py-2 rounded-md shadow ${ showLayers ? 'bg-blue-500 text-white hover:bg-gray-700' : 'bg-gray-700 text-white hover:bg-blue-500'}`}
-        >
-          Layer
-        </button>
-  
-        {/* Popup hiển thị các nút bản đồ */}
-        {showLayers && (
-          <div
-            style={{
-              position: 'absolute',
-              bottom: '50px',
-              right: '0',
-              background: 'rgba(255, 255, 255, 0.9)',
-              padding: '10px',
-              borderRadius: '8px',
-              boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '10px',
-              zIndex: 20,
-            }}
+        Layer
+      </button>
+
+      {/* Popup hiển thị các nút bản đồ */}
+      {showLayers && (
+        <div className="absolute bottom-[50px] right-0 bg-gray-500 bg-opacity-90 p-2 rounded-lg shadow-lg flex flex-col gap-2 z-20">
+          <button
+            onClick={() => changeMapStyle('mapbox://styles/mapbox/streets-v12')}
+            className={`px-4 py-2 rounded-md shadow hover:bg-gray-100 w-48 ${MapStyle === 'mapbox://styles/mapbox/streets-v12' ? 'bg-blue-500 text-white' : 'bg-gray-700 text-white'} hover:bg-blue-700`}
           >
-            <button
-              onClick={() => changeMapStyle('mapbox://styles/mapbox/streets-v12')}
-              className="px-4 py-2 bg-white border border-gray-300 rounded-md shadow hover:bg-gray-100 w-48"
-            >
-              Bản đồ thường
-            </button>
-            <button
-              onClick={() => changeMapStyle('mapbox://styles/mapbox/satellite-streets-v12')}
-              className="px-4 py-2 bg-white border border-gray-300 rounded-md shadow hover:bg-gray-100 w-48"
-            >
-              Bản đồ vệ tinh
-            </button>
-            <button
-              onClick={() => changeMapStyle('mapbox://styles/mapbox/outdoors-v12')}
-              className="px-4 py-2 bg-white border border-gray-300 rounded-md shadow hover:bg-gray-100 w-48"
-            >
-              Bản đồ địa hình
-            </button>
-            <button
-              onClick={() => changeMapStyle('mapbox://styles/mapbox/traffic-night-v2')}
-              className="px-4 py-2 bg-white border border-gray-300 rounded-md shadow hover:bg-gray-100 w-48"
-            >
-              Bản đồ giao thông
-            </button>
-          </div>
-        )}
-      </div>
+            Bản đồ thường
+          </button>
+          <button
+            onClick={() => changeMapStyle('mapbox://styles/mapbox/satellite-streets-v12')}
+            className={`px-4 py-2 rounded-md shadow hover:bg-gray-100 w-48 ${MapStyle === 'mapbox://styles/mapbox/satellite-streets-v12' ? 'bg-blue-500 text-white' : 'bg-gray-700 text-white'} hover:bg-blue-700`}
+          >
+            Bản đồ vệ tinh
+          </button>
+          <button
+            onClick={() => changeMapStyle('mapbox://styles/mapbox/outdoors-v12')}
+            className={`px-4 py-2 rounded-md shadow hover:bg-gray-100 w-48 ${MapStyle === 'mapbox://styles/mapbox/outdoors-v12' ? 'bg-blue-500 text-white' : 'bg-gray-700 text-white'} hover:bg-blue-700`}
+          >
+            Bản đồ địa hình
+          </button>
+          <button
+            onClick={() => changeMapStyle('mapbox://styles/mapbox/traffic-night-v2')}
+            className={`px-4 py-2 rounded-md shadow hover:bg-gray-100 w-48 ${MapStyle === 'mapbox://styles/mapbox/traffic-night-v2' ? 'bg-blue-500 text-white' : 'bg-gray-700 text-white'} hover:bg-blue-700`}
+          >
+            Bản đồ giao thông
+          </button>
+        </div>
+      )}
+    </div>
   
       {/* Hiển thị tọa độ */}
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 p-4 rounded-md shadow-md text-sm bg-gray-700 text-white hover:bg-blue-500">
@@ -599,14 +594,14 @@ const Map = () => {
       <div className="absolute top-14 left-2 flex flex-col gap-4 bg-gray-700 rounded-md p-2">
         <button
           onClick={handleLocateUser}
-          className="w-10 h-10 bg-gray-300 flex items-center justify-center rounded-full hover:bg-gray-500 focus:outline-none"
+          className={`w-10 h-10 bg-gray-300 flex items-center justify-center rounded-full focus:outline-none ${location ? 'bg-blue-200' : 'bg-gray-300'} hover:bg-gray-500`}
           title="Xác định vị trí của tôi"
         >
-          <FaMapMarkerAlt size={20} className="text-blue-500" />
+          <FaMapMarkerAlt size={20} className={`${location ? 'text-red-500' : 'text-blue-500'}`} />
         </button>
         <button
           onClick={handleTrackUser}
-          className={`w-10 h-10 flex items-center justify-center rounded-full focus:outline-none ${tracking ? 'bg-red-200' : 'bg-gray-300'} hover:bg-gray-500`}
+          className={`w-10 h-10 flex items-center justify-center rounded-full focus:outline-none ${tracking ? 'bg-blue-200' : 'bg-gray-300'} hover:bg-gray-500`}
           title={tracking ? 'Dừng theo dõi vị trí của tôi' : 'Theo dõi vị trí của tôi'}
         >
           <FaLocationArrow size={20} className={`${tracking ? 'text-red-500' : 'text-blue-500'}`} />
