@@ -1,8 +1,8 @@
-# React + Vite
+Overview
+This project demonstrates a 3D map simulation built using the Mapbox API. It showcases interactive 3D visualizations of geographical data, allowing users to explore maps with dynamic terrain, buildings, or custom 3D elements. The project is designed for developers interested in leveraging Mapbox for creating immersive map-based applications.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Features
+Interactive 3D map rendering using Mapbox GL JS.
+Support for terrain elevation and 3D building extrusions.
+Customizable map styles and layers.
+Responsive design for web applications.
