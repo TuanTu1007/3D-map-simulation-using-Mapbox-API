@@ -13,10 +13,7 @@ const BestFeature = () => {
         <div className="text-center text-3xl py-8">
           <Title text1={"BEST"} text2={"FEATURE"} />
           <p className="w-3/4 m-auto text-xs sm:text-sm md:text-base text-gray-600">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rerum
-            commodi facilis error ab neque quos, ea quis quod tempora vero
-            consequatur atque, officiis quia placeat recusandae numquam quam
-            nihil in?
+            Mode 3D
           </p>
         </div>
         <div className="ml-[240px] group" 

@@ -40,7 +40,7 @@ const Map = () => {
   }, []);
 
   useEffect(() => {
-    mapboxgl.accessToken = 'pk.eyJ1IjoiamFtZXMyMDAzIiwiYSI6ImNtM2ZhcTdhbjBueWwyanB5NGsxY3V3M3cifQ.4gW5S9bQj9h63cF5YnZ01Q';
+    mapboxgl.accessToken = process.env.YOUR_API_KEY;
 
     // Khởi tạo bản đồ
     mapRef.current = new mapboxgl.Map({
